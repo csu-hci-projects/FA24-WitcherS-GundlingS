@@ -5,6 +5,9 @@
 			"guid": "00000000000000000000000000000000",
 			"description": "Default Uncontrolled Changelist",
 			"files": [
+				"/Users/steph/Documents/GitHub/FA24-WitcherS-GundlingS/Content/StarterContent/Particles/P_Fire.uasset",
+				"/Users/steph/Documents/GitHub/FA24-WitcherS-GundlingS/Content/UserInterface/UserInterface.uasset",
+				"/Users/steph/Documents/GitHub/FA24-WitcherS-GundlingS/Content/FirstPerson/Blueprints/BP_Weapon_Component.uasset",
 				"C:/Users/sqgun/OneDrive/Documents/Unreal Projects/HW1/Content/StarterContent/Architecture/Floor_400x400.uasset",
 				"C:/Users/sqgun/OneDrive/Documents/Unreal Projects/HW1/Content/__ExternalActors__/Team-Project/D/CN/61E1R65YTKS52VWFDITFIP.uasset",
 				"C:/Users/sqgun/OneDrive/Documents/Unreal Projects/HW1/Content/__ExternalActors__/Team-Project/1/HT/E5YY62RESBVNBZMBJ9KNEV.uasset",
