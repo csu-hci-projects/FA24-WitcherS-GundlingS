@@ -3,7 +3,7 @@ Stephanie Witcher
 CS 310H-001
 5 December 2024
 README Homework 2
-Homework2 GitHub Repo Stephcw/csu-cs310h-HW2
+Homework2 GitHub Repo: [Stephcw/csu-cs310h-HW2](https://github.com/Stephcw/csu-cs310h-HW2)
 Play Through Video: https://youtu.be/UwyAp4WbnLU 
 BluePrints Video: https://youtu.be/UVqai4RcDwQ 
 GitHub Link: https://github.com/csu-hci-projects/FA24-WitcherS-GundlingS
