@@ -1,41 +1,45 @@
-# FA24-WitcherS-GundlingS
 Sequoia Gundling
 Stephanie Witcher
 CS 310H-001
-23 October 2024
-README Homework One
-Play Through video: https://youtu.be/05-6IGNMYTE 
-BluePrints video: https://youtu.be/kv_Th4TVTU8 
-GitHub link: https://github.com/csu-hci-projects/FA24-WitcherS-GundlingS 
+5 December 2024
+README Homework 2
+Homework2 GitHub Repo Stephcw/csu-cs310h-HW2
+Play Through Video: https://youtu.be/UwyAp4WbnLU 
+BluePrints Video: https://youtu.be/UVqai4RcDwQ 
+GitHub Link: https://github.com/csu-hci-projects/FA24-WitcherS-GundlingS
+
+How the Application Works
+	To run our application you will need the virtual reality head mounted display. This game is in the VRGameMode and contains the VR pawn to use within the game. The teleportation zone is created through a nav mesh bound volume. This is added to the project then stretched around the level floor so teleportation can be enabled. The player can now move around freely and go to other objects.
+
+The grabbable objects were quite simple. We first created a new blueprint actor, then added a static mesh on top of it. We chose to use meshes that one would find underwater. We chose a pearl, a statue, and a trident. The trident mesh came from the Fab Asset store. Then we checked the simulated physics box so when the object was thrown it did not defy gravity. 
+
+For the VR pistol we first copied the basic pistol from the starter content. The implementation for the ammo count and reload was based on the Lab 5 video made by Brenden. We first updated the pistol to have a spatial UI displayed. This UI kept track of the ammo count and decreased when the pistol shot. The text render is applied to the pistol so the number of ammo can be shown on the pistol itself. The ammo count starts at 15. In the event graph of the ammo pistol we implemented the decrement. We first add an ammoCount variable to keep track of how much ammo we currently have. We then check if the ammoCount is greater than zero, if it is we decrement the ammoCount and update the text render for the spatial UI. On EventBeginPlay we set up the text render in the event graph of the pistol so it will show when the pistol is picked up.
+For the reload function I had to create a new input in project settings. This allowed us to have an event for that specific button push. On the push the ammo count was reset to 15. The text render is also reset to 15. In between the input press and the ammoCount reset we added a time delay of 2 seconds. The knowledge to use this node can be found from the YouTube video stated below. After the reload completes then a sound from the 2d audio. This also came from a YouTube video listed below. The gun then had to have an audio listener to recognize the explosion sound.              
+
+	The way that the targets work is based on the Lab4VR video. Essentially I create an event Overlap that casts to a projectile to start the event when the collision is a projectile. On the first collision I change the material to red while incrementing a variable hit count. This is so on the second collision I can call Destroy Target with a branch. The branch’s conditions are based on whether the hits are greater than 1. Then, if true, Target Destroyed is called.
+
+I use Destroy target for the Navigation Modifier where after the first target is destroyed, the locked area becomes navigable again. The Navigation modifier is just an object in the class that prevents the player from navigating to that area. I set this up by changing the project settings runtime to Display Modifiers. 
+
+I also created a Kill count that is called in my shark target. This keeps track of the number of targets with a call to all instances of the class. In addition, it has a variable num Targets that is decremented by each target being destroyed. The main reason I created this was for my UI count in my KillCount_UI. This takes the number of targets which at the start should be 5, then continuously subtracts the number of targets based on the number of targets being reduced. This is then printed as a formatted string onto the UI for level one. I also use the KillCounter to load the next level once all the targets in the level are destroyed.
+
+For the win screen, the base was similar to the HW1 UI. I used a canvas panel, horizontal box, and text box to have the writing “You Win” appear on screen. However, this was not as simple as setting it up on the player even graph. We had to create a new blueprint actor that would help display the UI on the VR screen. This actor has the widget attachment and the WinUI widgetBlueprint was able to bind to it. In the win level, we decorated with pillars, sparklers, and a red carpet.  
+
 Responsibilities
-Stephanie:
-	I had the task of implementing the health, ammo, and hazards. I first used the lab videos to do the functionality of the ammo count. I created a user interface that showed “AMMO: #” and “Heath: #” on the user’s screen. In the first person weapon component I added the decreasing ammo functionality. This caused the number of ammo to be reduced by one with every shot. This appeared on screen through the user interface and bindings. I then added ammo pickups by creating an actor object. This object, when collided with, increments the ammo count which again updates on the screen. I then worked on hazards and health. I used a YouTube video from Jet Dev to learn about the Apply Damage function. If an object is collided with, damage is applied to the first person character. This then affects the first person blueprint by decreasing the health count by the event of any damage. This is again updated in the user interface using bindings. If the health reaches zero or below then the current level is restarted with the load level blueprint. The health pickups were similar to the ammo pickups except they now affect the current health variable. 
+Stephanie: 
+I had the responsibility of setting up the project. I started a new VR project and set the game mode to the VRGameMode. I also added the surrounding teleportation area in the level. This made it so our player could move all around the area to explore and shoot targets. I also had the responsibility of adding the three grabbable objects. These simulate both gravity and physics. They made the game more interesting. I added them as a “pearl”, a stone statue, and a broken trident to match with the underwater theme. Since Sequoia did lab 5 which dealt with the VR pistol and reload I decided to do that implementation for homework 2. I added UI to the pistol to show the ammo count. Then when the pistol shot I decreased the count. When the pistol reached zero the gun stopped firing. Then I followed the provided videos to add the reload function. I also created the win level and added the WinUI to the screen upon entry to the level.
 
-Sequoia: 
-I had the task of creating the menu screen UI, and implementing the targets as well as the level transfers. I watched a video on youtube for essentially everything I did, but the screen transfers I figured out how to do on my own. I created a user interface with a play and an exit button that both work. When the menu screen is on the game behind it is paused and when Play is clicked, the game can be played. Then for the targets I used a Can from a western package cited below and attached a Target Blueprint to it that has a UI along with a Health Bar to see the cans health. I decided to have each shot take away 50% damage. Then once the cans are destroyed they disappear. Through the creation of the targets I learned about level functionality along with Events in the event graph. This made it relatively easy to make comparisons of the number of cans along with the number of cans in the level destroyed. I did this with another blueprint CanCounter. Then in the event that the CanCounter = 0, the next level loads. I decided to have the play screen reappear in the instances that a Player didn't want to play the second level so they could quit the game.     
-
-How the Application Works 
-	The first thing you see in the game is the main menu. The main menu BP is a widget over the levels with two buttons and text over the buttons so that during implementation OnClicked could be utilized. For the exit condition the nodes are in the MainMenu_widget event graph where Onclicked the game is quit. Then the start button is implemented on the first person BP graph. The event BeginPlay is used to create the main menu widget which is fed from the main menu widget and then set and passed to the viewport. Then the link is passed to pause the game character and set it to UI only. Then the UI only sets the main menu to focus and activate the mouse, through getController. Then on Clicked the game is started and all the widgets are removed, the mouse cursor is deactivated and the game is set to game only. Then the ammo and health widget is  linked in after the game is unpaused.
-The Main user interface widget, for health and ammo, is done with a canvas panel, horizontal boxes, and text boxes. The health starts at 100 and the ammo count starts at zero. This is so you must acquire an ammo pickup before the first person weapon will allow firing. These look like the weapon projectile so the player knows what the ammo pick up is. When firing the first person weapon, the ammo count will decrease by one. This is done in the first person weapon component. Each fire will decrement the ammo count and update the count. This appears on the screen through the user interface widget and binding. The game also includes ammo pickups so the player can continue firing. These pickups are activated on overlap and increase the ammo count by the pickup count, which is how much each pickup is worth. It adds ten to the ammo for every pickup. 
-The hazards are implemented on the event actor overlap. Each spike will apply damage to the first person character. The base damage amount is 10. In the first person character blueprint, using the Event Any Damage to see if the player has been harmed, the damage is applied to the player health and updated in the event graph of the User Interface “MainUI” widget and the health binding. For first person character blueprint, the same execution checks to see if the health is less than or equal to zero. If the damage causes the health count variable to change to zero or below, GetCurrent level is called to get the current level and restarts the game to that level. In addition, there are also health pickups marked with a gold material. This pickup starts with the event actor overlap. It then checks the current health to make sure it does not exceed 100. Then it adds 10 to the current health and sets that number to the current health. 
-For the targets a targetBP widget was implemented that included a progress bar and max health/current health percentage. Then on the target BP we used the event BeginPlay where we casted to the targetBP widget that we got from the widget that was added to the components of the blueprint. Then we created a current health and max health variable that were set to the widgets currentHealth and MaxHealth text. To implement damage the Event hit was used where 0.5 damage was applied to the target. Then in the event of damage, it is multiplied by 100 to get a percent and subtracted that percent from the current health. Then we used the set node to update the health from the targetHealth. Then a boolean branch is called if the current health was <= 0. In this event the spawn emitter gets the default scene root and then delays and deletes the actor. Later decrease can counter was added to the target blueprint to feed the CanCounter blueprint to load the next level.
-Cancount is an empty mesh blueprint present in the levels with the targets. This is implemented with a decrementer “Decrease Can Counter”. The Targets make this call before they self-destruct so that the can counter can keep track of the cans that are deleted. Once the amount of cans is decremented to 0, the next level loads, or the game ends.
-
+Sequoia:
+I had the responsibility of creating the targets, the NavMesh and the kill count display. On Top of that I worked on creating the load win level after the targets were destroyed. I did the targets by watching the provided video from Lab4(3)VR. In addition to the video I figured out how to create a separate branch to change color on the first hit and only destroy the target after the second hit. I decided to use a shark actor in order to match the underwater theme we were going for. For the Nav Modifier volume I put it around my targets and had it become a nav area once the first target was destroyed. Then in order to create the kill count display I needed to add in a kill counter to keep track of all the targets destroyed. I then decremented the amount of targets each time a target was destroyed, and once it reached 5, the win level loaded.
 
 References:
+Link for Delay Reload https://youtu.be/RCuqjo5W2m0?si=3btskWQKXCLH_XOc 
+Link for Sound Reload https://youtu.be/A53GL_5PuaM?si=BJlFNTVqJSDf7ahK
+Link for WinUI https://youtu.be/H5nVjSwM_Uk?si=hzl9e7g-VdGx81b7
 
-Link to health and hazard video: https://www.youtube.com/watch?v=iUsZrBfWEIQ
-Link for Main Menu https://www.youtube.com/watch?v=g15DNCM5Aoo
-Link for Targets https://www.youtube.com/watch?v=uI5ps5DbFgI
-
-|Meeting Dates| Time | In Progress| Completed |
-|:------------:|:-----------:|:------------:|:-----------:|
-| 10/13/24 | 11:30-12:30| Github Set Up | Project Review / Breakdown |
-| 10/14/24 | 5:00-6:00 | Menu / Level 1 | Github Set Up |
-| 10/21/24 | 6:00-9:00 | Ammo Count and Pickup / Level Design | Project Planning / Menu |
-| 10/22/24 | 7:00-9:00 | Level Design / Target Health | Ammo Count and Pickup / Level Design |
-| 10/23/24 | 8:00-10:00 | Health and Hazards / Load Next Level | Pickups / Target Health |
-| 10/26/24 | 3:00-4:00 | Video / Scripts / ReadME | Health Hazards and Load Level |
-| 10/28/24 | 5:00-6:00 | Scripts / Video | README |
-| 10/30/24 | 4:00 - 5:00 | Submission | Video |
-
+Meeting Dates 
+Wednesday 11/27 5:30 PM
+Friday 11/29 2:20 PM
+Wednesday 12/4 3 PM
+Thursday 12/5 10 AM & 5 PM
+Friday 12/6 1:30 PM
+ 
